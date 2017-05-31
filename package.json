@@ -4,7 +4,7 @@
   "description": "A general approach to compose input UIs",
   "main": "index.js",
   "scripts": {
-    "test": "mocha \"test/function/**/*.js\""
+    "test": "mocha \"test/function/**/*.js\" -t 10000"
   },
   "repository": {
     "type": "git",

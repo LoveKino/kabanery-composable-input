@@ -16,7 +16,10 @@ let runFileInBrowser = (file) => {
 };
 
 let testFiles = {
-    'base:base': path.join(__dirname, '../browser/case/base/base.js')
+    'base:base': path.join(__dirname, '../browser/case/base/base.js'),
+    'base:compose': path.join(__dirname, '../browser/case/base/compose.js'),
+    'base:compose2': path.join(__dirname, '../browser/case/base/compose2.js'),
+    'base:source': path.join(__dirname, '../browser/case/base/source.js')
 };
 
 describe('browser', () => {

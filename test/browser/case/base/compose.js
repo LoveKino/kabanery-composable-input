@@ -15,26 +15,34 @@ let changes = [];
 
 mount(m('div', {
     value: {
-        doClick: 0
+        nextData: {
+            doClick: 0
+        }
     },
 
     onchange: (v) => {
         changes.push(JSON.parse(JSON.stringify(v)));
     }
 }, (bindValue) => [
-    n('button',
-        clickSignal(bindValue('doClick', {
-            id: 'testBtn'
-        }))
-    )
+    m('div', bindValue('nextData'), (bindValue) => [
+        n('button',
+            clickSignal(bindValue('doClick', {
+                id: 'testBtn'
+            }))
+        )
+    ])
 ]), document.body);
 
 document.getElementById('testBtn').click();
 
 module.exports = delay(50).then(() => {
     assert.deepEqual(changes, [{
-        doClick: 1
+        nextData: {
+            doClick: 1
+        }
     }, {
-        doClick: 0
+        nextData: {
+            doClick: 0
+        }
     }]);
 });

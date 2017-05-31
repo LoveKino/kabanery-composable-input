@@ -657,6 +657,118 @@ module.exports = {
 
 
 let {
+    isObject, funType, or, isString, isFalsy, likeArray
+} = __webpack_require__(0);
+
+let iterate = __webpack_require__(7);
+
+let {
+    map, reduce, find, findIndex, forEach, filter, any, exist, compact, reverse, overArgs
+} = __webpack_require__(15);
+
+let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
+
+let difference = (list1, list2, fopts) => {
+    return reduce(list1, (prev, item) => {
+        if (!contain(list2, item, fopts) &&
+            !contain(prev, item, fopts)) {
+            prev.push(item);
+        }
+        return prev;
+    }, []);
+};
+
+let union = (list1, list2, fopts) => deRepeat(list2, fopts, deRepeat(list1, fopts));
+
+let mergeMap = (map1 = {}, map2 = {}) => reduce(map2, setValueKey, reduce(map1, setValueKey, {}));
+
+let setValueKey = (obj, value, key) => {
+    obj[key] = value;
+    return obj;
+};
+
+let interset = (list1, list2, fopts) => {
+    return reduce(list1, (prev, cur) => {
+        if (contain(list2, cur, fopts)) {
+            prev.push(cur);
+        }
+        return prev;
+    }, []);
+};
+
+let deRepeat = (list, fopts, init = []) => {
+    return reduce(list, (prev, cur) => {
+        if (!contain(prev, cur, fopts)) {
+            prev.push(cur);
+        }
+        return prev;
+    }, init);
+};
+
+/**
+ * a.b.c
+ */
+let get = funType((sandbox, name = '') => {
+    name = name.trim();
+    let parts = !name ? [] : name.split('.');
+    return reduce(parts, getValue, sandbox, invertLogic);
+}, [
+    isObject,
+    or(isString, isFalsy)
+]);
+
+let getValue = (obj, key) => obj[key];
+
+let invertLogic = v => !v;
+
+let delay = (time) => new Promise((resolve) => {
+    setTimeout(resolve, time);
+});
+
+let flat = (list) => {
+    if (likeArray(list) && !isString(list)) {
+        return reduce(list, (prev, item) => {
+            prev = prev.concat(flat(item));
+            return prev;
+        }, []);
+    } else {
+        return [list];
+    }
+};
+
+module.exports = {
+    flat,
+    contain,
+    difference,
+    union,
+    interset,
+    map,
+    reduce,
+    iterate,
+    find,
+    findIndex,
+    deRepeat,
+    forEach,
+    filter,
+    any,
+    exist,
+    get,
+    delay,
+    mergeMap,
+    compact,
+    reverse,
+    overArgs
+};
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let {
     map
 } = __webpack_require__(1);
 let {
@@ -763,7 +875,7 @@ module.exports = {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -783,7 +895,7 @@ let {
 
 let {
     isKabaneryNode
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 let reduceNode = (node) => {
     if (isKabaneryNode(node)) {
@@ -802,118 +914,6 @@ let reduceNode = (node) => {
 };
 
 module.exports = reduceNode;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-let {
-    isObject, funType, or, isString, isFalsy, likeArray
-} = __webpack_require__(0);
-
-let iterate = __webpack_require__(7);
-
-let {
-    map, reduce, find, findIndex, forEach, filter, any, exist, compact, reverse, overArgs
-} = __webpack_require__(15);
-
-let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
-
-let difference = (list1, list2, fopts) => {
-    return reduce(list1, (prev, item) => {
-        if (!contain(list2, item, fopts) &&
-            !contain(prev, item, fopts)) {
-            prev.push(item);
-        }
-        return prev;
-    }, []);
-};
-
-let union = (list1, list2, fopts) => deRepeat(list2, fopts, deRepeat(list1, fopts));
-
-let mergeMap = (map1 = {}, map2 = {}) => reduce(map2, setValueKey, reduce(map1, setValueKey, {}));
-
-let setValueKey = (obj, value, key) => {
-    obj[key] = value;
-    return obj;
-};
-
-let interset = (list1, list2, fopts) => {
-    return reduce(list1, (prev, cur) => {
-        if (contain(list2, cur, fopts)) {
-            prev.push(cur);
-        }
-        return prev;
-    }, []);
-};
-
-let deRepeat = (list, fopts, init = []) => {
-    return reduce(list, (prev, cur) => {
-        if (!contain(prev, cur, fopts)) {
-            prev.push(cur);
-        }
-        return prev;
-    }, init);
-};
-
-/**
- * a.b.c
- */
-let get = funType((sandbox, name = '') => {
-    name = name.trim();
-    let parts = !name ? [] : name.split('.');
-    return reduce(parts, getValue, sandbox, invertLogic);
-}, [
-    isObject,
-    or(isString, isFalsy)
-]);
-
-let getValue = (obj, key) => obj[key];
-
-let invertLogic = v => !v;
-
-let delay = (time) => new Promise((resolve) => {
-    setTimeout(resolve, time);
-});
-
-let flat = (list) => {
-    if (likeArray(list) && !isString(list)) {
-        return reduce(list, (prev, item) => {
-            prev = prev.concat(flat(item));
-            return prev;
-        }, []);
-    } else {
-        return [list];
-    }
-};
-
-module.exports = {
-    flat,
-    contain,
-    difference,
-    union,
-    interset,
-    map,
-    reduce,
-    iterate,
-    find,
-    findIndex,
-    deRepeat,
-    forEach,
-    filter,
-    any,
-    exist,
-    get,
-    delay,
-    mergeMap,
-    compact,
-    reverse,
-    overArgs
-};
 
 
 /***/ }),
@@ -1431,7 +1431,7 @@ let {
     flat, forEach
 } = __webpack_require__(1);
 
-let reduceNode = __webpack_require__(5);
+let reduceNode = __webpack_require__(6);
 
 /**
  * @param parentNode
@@ -1474,23 +1474,25 @@ module.exports = __webpack_require__(38);
 
 
 let {
-    comIn, RawInput, Select
+    m, RawInput, Select, clickSignal
 } = __webpack_require__(13);
 
 let {
-    mount, view
+    mount, view, n
 } = __webpack_require__(2);
 
 let LoginView = view((data, {
     update
 }) => {
-    return comIn('div', {
+    return m('div', {
         value: data,
 
         onchange: (v, source) => {
             console.log(v);
             console.log(source);
-        }
+        },
+
+        doClick: 0
     }, (bindValue) => [
         Select(bindValue('loginType', {
             options: [
@@ -1508,7 +1510,7 @@ let LoginView = view((data, {
             }
         })),
 
-        data.loginType === 'token' ? RawInput(bindValue('token')) : comIn('div',
+        data.loginType === 'token' ? RawInput(bindValue('token')) : m('div',
             bindValue('loginData', {
                 onchange: (v, source) => {
                     console.log(v);
@@ -1523,7 +1525,9 @@ let LoginView = view((data, {
                         type: 'password'
                     }
                 }))
-            ])
+            ]),
+
+        n('button', clickSignal(bindValue('doClick')), 'sure')
     ]);
 });
 
@@ -2640,7 +2644,7 @@ module.exports = {
 
 let {
     n
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 let {
     isArray, isFunction, isObject
@@ -2799,7 +2803,7 @@ let getGlobalEventTypeId = (type) => `__event_type_id_${type}`;
 
 let {
     n, svgn, bindPlugs, toHTML, parseArgs
-} = __webpack_require__(4);
+} = __webpack_require__(5);
 
 let plugs = __webpack_require__(33);
 
@@ -2809,7 +2813,7 @@ let mount = __webpack_require__(12);
 
 let N = __webpack_require__(26);
 
-let reduceNode = __webpack_require__(5);
+let reduceNode = __webpack_require__(6);
 
 module.exports = {
     n,
@@ -3346,7 +3350,7 @@ let {
 
 let replace = __webpack_require__(36);
 
-let reduceNode = __webpack_require__(5);
+let reduceNode = __webpack_require__(6);
 
 let mount = __webpack_require__(12);
 
@@ -3543,6 +3547,29 @@ module.exports = View;
 "use strict";
 
 
+let RawInput = __webpack_require__(41);
+
+let Select = __webpack_require__(42);
+
+let m = __webpack_require__(39);
+
+let clickSignal = __webpack_require__(40);
+
+module.exports = {
+    m,
+    RawInput,
+    Select,
+    clickSignal
+};
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 let {
     n
 } = __webpack_require__(2);
@@ -3553,15 +3580,11 @@ let {
 
 let {
     mergeMap, reduce, get
-} = __webpack_require__(6);
+} = __webpack_require__(4);
 
 let {
     set
 } = __webpack_require__(19);
-
-let RawInput = __webpack_require__(39);
-
-let Select = __webpack_require__(40);
 
 /**
  * input interface
@@ -3582,7 +3605,7 @@ let Select = __webpack_require__(40);
  * To compose some input UI to a large UI, we need to know how to connect input UI with large UI's part data.
  */
 
-let comIn = (...args) => {
+let m = (...args) => {
     let tagName = args[0];
     let attrs = {},
         childs = [],
@@ -3632,15 +3655,34 @@ let comIn = (...args) => {
     }, {}), childs);
 };
 
-module.exports = {
-    comIn,
-    RawInput,
-    Select
+module.exports = m;
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let {
+    mergeMap
+} = __webpack_require__(4);
+
+module.exports = (attrs = {}) => {
+    return mergeMap(attrs, {
+        onclick: () => {
+            // change value state
+            attrs.onchange && attrs.onchange(1);
+            // change it back
+            attrs.onchange && attrs.onchange(0);
+        }
+    });
 };
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3652,7 +3694,7 @@ let {
 
 let {
     mergeMap
-} = __webpack_require__(6);
+} = __webpack_require__(4);
 
 let RawInput = view((data = {}) => {
     return n('input', mergeMap({
@@ -3669,7 +3711,7 @@ module.exports = RawInput;
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
