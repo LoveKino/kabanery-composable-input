@@ -18,6 +18,8 @@ let {
 
 let RawInput = require('./view/RawInput');
 
+let Select = require('./view/Select');
+
 /**
  * input interface
  *
@@ -60,11 +62,13 @@ let comIn = (...args) => {
             // get sub value
             let subValue = get(value, index);
 
-            let subOnchange = (v) => {
+            let subOnchange = (v, source) => {
                 // update sub value
                 set(value, index, v);
+                subAttrs.onchange && subAttrs.onchange(v, source);
 
-                onchange && onchange(value);
+                let prevSource = source ? index + '.' + source : index;
+                onchange && onchange(value, prevSource);
             };
 
             return mergeMap(subAttrs, {
@@ -87,5 +91,6 @@ let comIn = (...args) => {
 
 module.exports = {
     comIn,
-    RawInput
+    RawInput,
+    Select
 };

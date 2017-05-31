@@ -32,6 +32,7 @@
     "basetype": "^0.1.4",
     "bolzano": "^0.1.1",
     "jsenhance": "0.0.3",
-    "kabanery": "^0.2.3"
+    "kabanery": "^0.2.3",
+    "kabanery-select": "0.0.8"
   }
 }

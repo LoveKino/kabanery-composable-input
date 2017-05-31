@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 13);
+/******/ 	return __webpack_require__(__webpack_require__.s = 14);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -303,11 +303,11 @@ let {
     isObject, funType, or, isString, isFalsy, likeArray
 } = __webpack_require__(0);
 
-let iterate = __webpack_require__(9);
+let iterate = __webpack_require__(10);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact
-} = __webpack_require__(21);
+} = __webpack_require__(25);
 
 let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
 
@@ -404,6 +404,97 @@ module.exports = {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__(28);
+
+/**
+ * @readme-quick-run
+ *
+ * Using method n to construct dom node quickly.
+ *
+ * [readme-lang:zh]用方法n快速构造dom节点
+ *
+ * ## test tar=js r_c=kabanery env=browser
+ * let {n, mount} = kabanery;
+ *
+ * mount(n('div', {
+ *   id: 'qu',
+ *   style: {
+ *      backgroundColor: 'red'
+ *   }
+ * }, [
+ *      n('span class=go style="font-size:16px"')
+ * ]), document.body);
+ *
+ * console.log(document.getElementById('qu').outerHTML); // print result
+ */
+
+/**
+ * @readme-quick-run
+ *
+ * Basic way to construct a view.
+ *
+ * [readme-lang:zh]构造一个组件的简单方法
+ *
+ * ## test tar=js r_c=kabanery env=browser
+ * let {view, n, mount} = kabanery;
+ *
+ * let MyView = view((data) => {
+ *      let {type} = data;
+ *
+ *      return n('div', {
+ *         id: 'test1',
+ *         style: {
+ *            fontSize: 10
+ *         }
+ *      },[
+ *          type === 2 && n('span', 'second'),
+ *          type === 3 && n('div', 'third')
+ *      ]);
+ * });
+ *
+ * mount(MyView({type: 3}), document.body);
+ *
+ * console.log(document.getElementById('test1').outerHTML); // print result
+ */
+
+/**
+ * @readme-quick-run
+ *
+ * Using update api to update a view.
+ *
+ * [readme-lang:zh]运用update api去更新一个view
+ *
+ * ## test tar=js r_c=kabanery env=browser
+ * let {view, n, mount} = kabanery;
+ *
+ * let MyView = view((data, {update}) => {
+ *      return n('div', {
+ *         id: 'a',
+ *         style: {
+ *            fontSize: 10
+ *         },
+ *         onclick: () => {
+ *            update('show', !data.show);
+ *         }
+ *      }, [
+ *          data.show && n('div', 'show text')
+ *      ]);
+ * });
+ *
+ * mount(MyView({show: false}), document.body);
+ *
+ * document.getElementById('a').click(); // simulate user action
+ * console.log(document.getElementById('a').outerHTML); // print result
+ */
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -559,97 +650,6 @@ module.exports = {
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = __webpack_require__(24);
-
-/**
- * @readme-quick-run
- *
- * Using method n to construct dom node quickly.
- *
- * [readme-lang:zh]用方法n快速构造dom节点
- *
- * ## test tar=js r_c=kabanery env=browser
- * let {n, mount} = kabanery;
- *
- * mount(n('div', {
- *   id: 'qu',
- *   style: {
- *      backgroundColor: 'red'
- *   }
- * }, [
- *      n('span class=go style="font-size:16px"')
- * ]), document.body);
- *
- * console.log(document.getElementById('qu').outerHTML); // print result
- */
-
-/**
- * @readme-quick-run
- *
- * Basic way to construct a view.
- *
- * [readme-lang:zh]构造一个组件的简单方法
- *
- * ## test tar=js r_c=kabanery env=browser
- * let {view, n, mount} = kabanery;
- *
- * let MyView = view((data) => {
- *      let {type} = data;
- *
- *      return n('div', {
- *         id: 'test1',
- *         style: {
- *            fontSize: 10
- *         }
- *      },[
- *          type === 2 && n('span', 'second'),
- *          type === 3 && n('div', 'third')
- *      ]);
- * });
- *
- * mount(MyView({type: 3}), document.body);
- *
- * console.log(document.getElementById('test1').outerHTML); // print result
- */
-
-/**
- * @readme-quick-run
- *
- * Using update api to update a view.
- *
- * [readme-lang:zh]运用update api去更新一个view
- *
- * ## test tar=js r_c=kabanery env=browser
- * let {view, n, mount} = kabanery;
- *
- * let MyView = view((data, {update}) => {
- *      return n('div', {
- *         id: 'a',
- *         style: {
- *            fontSize: 10
- *         },
- *         onclick: () => {
- *            update('show', !data.show);
- *         }
- *      }, [
- *          data.show && n('div', 'show text')
- *      ]);
- * });
- *
- * mount(MyView({show: false}), document.body);
- *
- * document.getElementById('a').click(); // simulate user action
- * console.log(document.getElementById('a').outerHTML); // print result
- */
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -663,7 +663,7 @@ let {
     isObject, isNode
 } = __webpack_require__(0);
 
-let parseArgs = __webpack_require__(25);
+let parseArgs = __webpack_require__(29);
 
 const KABANERY_NODE = 'kabanery_node';
 
@@ -771,11 +771,11 @@ module.exports = {
 
 let {
     createElement, createSvgElement
-} = __webpack_require__(27);
+} = __webpack_require__(31);
 
 let {
     bindEvents
-} = __webpack_require__(10);
+} = __webpack_require__(11);
 
 let {
     map
@@ -819,7 +819,7 @@ let iterate = __webpack_require__(7);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact, reverse, overArgs
-} = __webpack_require__(14);
+} = __webpack_require__(15);
 
 let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
 
@@ -1283,7 +1283,114 @@ module.exports = iterate;
 "use strict";
 
 
-let EventMatrix = __webpack_require__(23);
+let {
+    likeArray, isObject, funType, isFunction, isUndefined, or, isNumber, isFalsy, mapType
+} = __webpack_require__(0);
+
+/**
+ *
+ * preidcate: chose items to iterate
+ * limit: when to stop iteration
+ * transfer: transfer item
+ * output
+ */
+let iterate = funType((domain = [], opts = {}) => {
+    let {
+        predicate, transfer, output, limit, def
+    } = opts;
+
+    opts.predicate = predicate || truthy;
+    opts.transfer = transfer || id;
+    opts.output = output || toList;
+    if (limit === undefined) limit = domain && domain.length;
+    limit = opts.limit = stopCondition(limit);
+
+    let rets = def;
+    let count = 0;
+
+    if (likeArray(domain)) {
+        for (let i = 0; i < domain.length; i++) {
+            let itemRet = iterateItem(domain, i, count, rets, opts);
+            rets = itemRet.rets;
+            count = itemRet.count;
+            if (itemRet.stop) return rets;
+        }
+    } else if (isObject(domain)) {
+        for (let name in domain) {
+            let itemRet = iterateItem(domain, name, count, rets, opts);
+            rets = itemRet.rets;
+            count = itemRet.count;
+            if (itemRet.stop) return rets;
+        }
+    }
+
+    return rets;
+}, [
+    or(isObject, isFunction, isFalsy),
+    or(isUndefined, mapType({
+        predicate: or(isFunction, isFalsy),
+        transfer: or(isFunction, isFalsy),
+        output: or(isFunction, isFalsy),
+        limit: or(isUndefined, isNumber, isFunction)
+    }))
+]);
+
+let iterateItem = (domain, name, count, rets, {
+    predicate, transfer, output, limit
+}) => {
+    let item = domain[name];
+    if (limit(rets, item, name, domain, count)) {
+        // stop
+        return {
+            stop: true,
+            count,
+            rets
+        };
+    }
+
+    if (predicate(item)) {
+        rets = output(rets, transfer(item, name, domain, rets), name, domain);
+        count++;
+    }
+    return {
+        stop: false,
+        count,
+        rets
+    };
+};
+
+let stopCondition = (limit) => {
+    if (isUndefined(limit)) {
+        return falsy;
+    } else if (isNumber(limit)) {
+        return (rets, item, name, domain, count) => count >= limit;
+    } else {
+        return limit;
+    }
+};
+
+let toList = (prev, v) => {
+    prev.push(v);
+    return prev;
+};
+
+let truthy = () => true;
+
+let falsy = () => false;
+
+let id = v => v;
+
+module.exports = iterate;
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let EventMatrix = __webpack_require__(27);
 
 let {
     listenEventType,
@@ -1306,7 +1413,7 @@ module.exports = {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1314,7 +1421,7 @@ module.exports = {
 
 let {
     attachDocument
-} = __webpack_require__(10);
+} = __webpack_require__(11);
 
 let {
     isNode
@@ -1353,45 +1460,61 @@ let getDoc = (node) => {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(34);
+module.exports = __webpack_require__(38);
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 let {
-    comIn, RawInput
-} = __webpack_require__(12);
+    comIn, RawInput, Select
+} = __webpack_require__(13);
 
 let {
-    mount
-} = __webpack_require__(3);
+    mount, view
+} = __webpack_require__(2);
 
-mount(
+let LoginView = view((data, {
+    update
+}) => {
+    return comIn('div', {
+        value: data,
 
-    comIn('div', {
-        value: {
-            loginType: 'normal',
-            loginData: {
-                userName: 'ddchen',
-                password: '1234'
-            }
-        },
-
-        onchange: (v) => {
+        onchange: (v, source) => {
             console.log(v);
+            console.log(source);
         }
     }, (bindValue) => [
-        RawInput(bindValue('loginType')),
-        comIn('div',
-            bindValue('loginData'),
+        Select(bindValue('loginType', {
+            options: [
+                [
+                    'normal',
+                    'normal'
+                ],
+                [
+                    'token', 'token'
+                ]
+            ],
+
+            onchange: (v) => {
+                update('loginType', v);
+            }
+        })),
+
+        data.loginType === 'token' ? RawInput(bindValue('token')) : comIn('div',
+            bindValue('loginData', {
+                onchange: (v, source) => {
+                    console.log(v);
+                    console.log(source);
+                }
+            }),
 
             (bindValue) => [
                 RawInput(bindValue('userName')),
@@ -1401,11 +1524,21 @@ mount(
                     }
                 }))
             ])
-    ]), document.body);
+    ]);
+});
+
+mount(LoginView({
+    loginType: 'normal',
+    loginData: {
+        userName: '',
+        password: ''
+    },
+    token: ''
+}), document.body);
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1530,15 +1663,15 @@ module.exports = {
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let shadowFrame = __webpack_require__(16);
+let shadowFrame = __webpack_require__(17);
 
-let startMomenter = __webpack_require__(17);
+let startMomenter = __webpack_require__(18);
 
 let getX = (elem) => {
     var x = 0;
@@ -1621,7 +1754,7 @@ module.exports = {
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1676,7 +1809,7 @@ module.exports = shadowFrame;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1732,7 +1865,7 @@ module.exports = startMomenter;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1740,7 +1873,7 @@ module.exports = startMomenter;
 
 let {
     reduce
-} = __webpack_require__(19);
+} = __webpack_require__(20);
 let {
     funType, isObject, or, isString, isFalsy
 } = __webpack_require__(0);
@@ -1896,7 +2029,7 @@ module.exports = {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1910,7 +2043,7 @@ let iterate = __webpack_require__(8);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact
-} = __webpack_require__(20);
+} = __webpack_require__(21);
 
 let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
 
@@ -2006,118 +2139,13 @@ module.exports = {
 
 
 /***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-let iterate = __webpack_require__(8);
-
-let defauls = {
-    eq: (v1, v2) => v1 === v2
-};
-
-let setDefault = (opts, defauls) => {
-    for (let name in defauls) {
-        opts[name] = opts[name] || defauls[name];
-    }
-};
-
-let forEach = (list, handler) => iterate(list, {
-    limit: (rets) => {
-        if (rets === true) return true;
-        return false;
-    },
-    transfer: handler,
-    output: (prev, cur) => cur,
-    def: false
-});
-
-let map = (list, handler, limit) => iterate(list, {
-    transfer: handler,
-    def: [],
-    limit
-});
-
-let reduce = (list, handler, def, limit) => iterate(list, {
-    output: handler,
-    def,
-    limit
-});
-
-let filter = (list, handler, limit) => reduce(list, (prev, cur, index, list) => {
-    handler && handler(cur, index, list) && prev.push(cur);
-    return prev;
-}, [], limit);
-
-let find = (list, item, fopts) => {
-    let index = findIndex(list, item, fopts);
-    if (index === -1) return undefined;
-    return list[index];
-};
-
-let any = (list, handler) => reduce(list, (prev, cur, index, list) => {
-    let curLogic = handler && handler(cur, index, list);
-    return prev && originLogic(curLogic);
-}, true, falsyIt);
-
-let exist = (list, handler) => reduce(list, (prev, cur, index, list) => {
-    let curLogic = handler && handler(cur, index, list);
-    return prev || originLogic(curLogic);
-}, false, originLogic);
-
-let findIndex = (list, item, fopts = {}) => {
-    setDefault(fopts, defauls);
-
-    let {
-        eq
-    } = fopts;
-    let predicate = (v) => eq(item, v);
-    let ret = iterate(list, {
-        transfer: indexTransfer,
-        limit: onlyOne,
-        predicate,
-        def: []
-    });
-    if (!ret.length) return -1;
-    return ret[0];
-};
-
-let compact = (list) => reduce(list, (prev, cur) => {
-    if (cur) prev.push(cur);
-    return prev;
-}, []);
-
-let indexTransfer = (item, index) => index;
-
-let onlyOne = (rets, item, name, domain, count) => count >= 1;
-
-let falsyIt = v => !v;
-
-let originLogic = v => !!v;
-
-module.exports = {
-    map,
-    forEach,
-    reduce,
-    find,
-    findIndex,
-    filter,
-    any,
-    exist,
-    compact
-};
-
-
-/***/ }),
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let iterate = __webpack_require__(9);
+let iterate = __webpack_require__(8);
 
 let defauls = {
     eq: (v1, v2) => v1 === v2
@@ -2223,6 +2251,394 @@ module.exports = {
 
 
 let {
+    map
+} = __webpack_require__(23);
+
+let {
+    n, view
+} = __webpack_require__(2);
+
+/**
+ * @readme-quick-run
+ *
+ * ## test tar=js r_c=Select env=browser
+ *
+ * let {mount} = require('kabanery');
+ *
+ * let view = Select({
+ *   options: [['a', 'option a'], ['b', 'option b']],
+ *   selected: 'a',
+ *   onchange: (selectItem) => {
+ *   }
+ * });
+ *
+ * mount(view, document.body);
+ *
+ * console.log(document.body.innerHTML);
+ */
+
+/**
+ * {
+ *
+ *      options: [[name, description]],
+ *
+ *      selected
+ * }
+ */
+
+module.exports = view((data) => {
+    data.selected = data.selected || data.options[0][0];
+
+    let onchange = data.onchange;
+
+    return n('select', {
+        onchange: (e) => {
+            data.selected = e.target.value;
+            onchange && onchange(data.selected);
+        }
+    }, map(data.options, ([name, description]) => {
+        let selectStr = '';
+        if (data.selected === name) {
+            selectStr = 'selected="selected"';
+        }
+
+        if (description === undefined) {
+            description = name;
+        }
+
+        return n(`option value=${name} ${selectStr}`, description);
+    }));
+});
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let {
+    isObject, funType, or, isString, isFalsy, likeArray
+} = __webpack_require__(0);
+
+let iterate = __webpack_require__(9);
+
+let {
+    map, reduce, find, findIndex, forEach, filter, any, exist, compact
+} = __webpack_require__(24);
+
+let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
+
+let difference = (list1, list2, fopts) => {
+    return reduce(list1, (prev, item) => {
+        if (!contain(list2, item, fopts) &&
+            !contain(prev, item, fopts)) {
+            prev.push(item);
+        }
+        return prev;
+    }, []);
+};
+
+let union = (list1, list2, fopts) => deRepeat(list2, fopts, deRepeat(list1, fopts));
+
+let mergeMap = (map1 = {}, map2 = {}) => reduce(map2, setValueKey, reduce(map1, setValueKey, {}));
+
+let setValueKey = (obj, value, key) => {
+    obj[key] = value;
+    return obj;
+};
+
+let interset = (list1, list2, fopts) => {
+    return reduce(list1, (prev, cur) => {
+        if (contain(list2, cur, fopts)) {
+            prev.push(cur);
+        }
+        return prev;
+    }, []);
+};
+
+let deRepeat = (list, fopts, init = []) => {
+    return reduce(list, (prev, cur) => {
+        if (!contain(prev, cur, fopts)) {
+            prev.push(cur);
+        }
+        return prev;
+    }, init);
+};
+
+/**
+ * a.b.c
+ */
+let get = funType((sandbox, name = '') => {
+    name = name.trim();
+    let parts = !name ? [] : name.split('.');
+    return reduce(parts, getValue, sandbox, invertLogic);
+}, [
+    isObject,
+    or(isString, isFalsy)
+]);
+
+let getValue = (obj, key) => obj[key];
+
+let invertLogic = v => !v;
+
+let delay = (time) => new Promise((resolve) => {
+    setTimeout(resolve, time);
+});
+
+let flat = (list) => {
+    if (likeArray(list) && !isString(list)) {
+        return reduce(list, (prev, item) => {
+            prev = prev.concat(flat(item));
+            return prev;
+        }, []);
+    } else {
+        return [list];
+    }
+};
+
+module.exports = {
+    flat,
+    contain,
+    difference,
+    union,
+    interset,
+    map,
+    reduce,
+    iterate,
+    find,
+    findIndex,
+    deRepeat,
+    forEach,
+    filter,
+    any,
+    exist,
+    get,
+    delay,
+    mergeMap,
+    compact
+};
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let iterate = __webpack_require__(9);
+
+let defauls = {
+    eq: (v1, v2) => v1 === v2
+};
+
+let setDefault = (opts, defauls) => {
+    for (let name in defauls) {
+        opts[name] = opts[name] || defauls[name];
+    }
+};
+
+let forEach = (list, handler) => iterate(list, {
+    limit: (rets) => {
+        if (rets === true) return true;
+        return false;
+    },
+    transfer: handler,
+    output: (prev, cur) => cur,
+    def: false
+});
+
+let map = (list, handler, limit) => iterate(list, {
+    transfer: handler,
+    def: [],
+    limit
+});
+
+let reduce = (list, handler, def, limit) => iterate(list, {
+    output: handler,
+    def,
+    limit
+});
+
+let filter = (list, handler, limit) => reduce(list, (prev, cur, index, list) => {
+    handler && handler(cur, index, list) && prev.push(cur);
+    return prev;
+}, [], limit);
+
+let find = (list, item, fopts) => {
+    let index = findIndex(list, item, fopts);
+    if (index === -1) return undefined;
+    return list[index];
+};
+
+let any = (list, handler) => reduce(list, (prev, cur, index, list) => {
+    let curLogic = handler && handler(cur, index, list);
+    return prev && originLogic(curLogic);
+}, true, falsyIt);
+
+let exist = (list, handler) => reduce(list, (prev, cur, index, list) => {
+    let curLogic = handler && handler(cur, index, list);
+    return prev || originLogic(curLogic);
+}, false, originLogic);
+
+let findIndex = (list, item, fopts = {}) => {
+    setDefault(fopts, defauls);
+
+    let {
+        eq
+    } = fopts;
+    let predicate = (v) => eq(item, v);
+    let ret = iterate(list, {
+        transfer: indexTransfer,
+        limit: onlyOne,
+        predicate,
+        def: []
+    });
+    if (!ret.length) return -1;
+    return ret[0];
+};
+
+let compact = (list) => reduce(list, (prev, cur) => {
+    if (cur) prev.push(cur);
+    return prev;
+}, []);
+
+let indexTransfer = (item, index) => index;
+
+let onlyOne = (rets, item, name, domain, count) => count >= 1;
+
+let falsyIt = v => !v;
+
+let originLogic = v => !!v;
+
+module.exports = {
+    map,
+    forEach,
+    reduce,
+    find,
+    findIndex,
+    filter,
+    any,
+    exist,
+    compact
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let iterate = __webpack_require__(10);
+
+let defauls = {
+    eq: (v1, v2) => v1 === v2
+};
+
+let setDefault = (opts, defauls) => {
+    for (let name in defauls) {
+        opts[name] = opts[name] || defauls[name];
+    }
+};
+
+let forEach = (list, handler) => iterate(list, {
+    limit: (rets) => {
+        if (rets === true) return true;
+        return false;
+    },
+    transfer: handler,
+    output: (prev, cur) => cur,
+    def: false
+});
+
+let map = (list, handler, limit) => iterate(list, {
+    transfer: handler,
+    def: [],
+    limit
+});
+
+let reduce = (list, handler, def, limit) => iterate(list, {
+    output: handler,
+    def,
+    limit
+});
+
+let filter = (list, handler, limit) => reduce(list, (prev, cur, index, list) => {
+    handler && handler(cur, index, list) && prev.push(cur);
+    return prev;
+}, [], limit);
+
+let find = (list, item, fopts) => {
+    let index = findIndex(list, item, fopts);
+    if (index === -1) return undefined;
+    return list[index];
+};
+
+let any = (list, handler) => reduce(list, (prev, cur, index, list) => {
+    let curLogic = handler && handler(cur, index, list);
+    return prev && originLogic(curLogic);
+}, true, falsyIt);
+
+let exist = (list, handler) => reduce(list, (prev, cur, index, list) => {
+    let curLogic = handler && handler(cur, index, list);
+    return prev || originLogic(curLogic);
+}, false, originLogic);
+
+let findIndex = (list, item, fopts = {}) => {
+    setDefault(fopts, defauls);
+
+    let {
+        eq
+    } = fopts;
+    let predicate = (v) => eq(item, v);
+    let ret = iterate(list, {
+        transfer: indexTransfer,
+        limit: onlyOne,
+        predicate,
+        def: []
+    });
+    if (!ret.length) return -1;
+    return ret[0];
+};
+
+let compact = (list) => reduce(list, (prev, cur) => {
+    if (cur) prev.push(cur);
+    return prev;
+}, []);
+
+let indexTransfer = (item, index) => index;
+
+let onlyOne = (rets, item, name, domain, count) => count >= 1;
+
+let falsyIt = v => !v;
+
+let originLogic = v => !!v;
+
+module.exports = {
+    map,
+    forEach,
+    reduce,
+    find,
+    findIndex,
+    filter,
+    any,
+    exist,
+    compact
+};
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let {
     n
 } = __webpack_require__(4);
 
@@ -2272,7 +2688,7 @@ module.exports = (...args) => {
 
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2375,7 +2791,7 @@ let getGlobalEventTypeId = (type) => `__event_type_id_${type}`;
 
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2385,13 +2801,13 @@ let {
     n, svgn, bindPlugs, toHTML, parseArgs
 } = __webpack_require__(4);
 
-let plugs = __webpack_require__(29);
+let plugs = __webpack_require__(33);
 
-let view = __webpack_require__(33);
+let view = __webpack_require__(37);
 
-let mount = __webpack_require__(11);
+let mount = __webpack_require__(12);
 
-let N = __webpack_require__(22);
+let N = __webpack_require__(26);
 
 let reduceNode = __webpack_require__(5);
 
@@ -2411,13 +2827,13 @@ module.exports = {
 
 
 /***/ }),
-/* 25 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let parseAttribute = __webpack_require__(26);
+let parseAttribute = __webpack_require__(30);
 
 let {
     isString, isObject, isNode, likeArray, isNumber, isBool
@@ -2497,7 +2913,7 @@ module.exports = parseArgs;
 
 
 /***/ }),
-/* 26 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2609,7 +3025,7 @@ module.exports = parseAttribute;
 
 
 /***/ }),
-/* 27 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2656,7 +3072,7 @@ module.exports = {
 
 
 /***/ }),
-/* 28 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2688,14 +3104,14 @@ let wrapEventHandler = (fun, catcher) => {
 
 
 /***/ }),
-/* 29 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-let twowaybinding = __webpack_require__(30);
-let eventError = __webpack_require__(28);
+let twowaybinding = __webpack_require__(34);
+let eventError = __webpack_require__(32);
 
 module.exports = {
     twowaybinding,
@@ -2704,7 +3120,7 @@ module.exports = {
 
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2712,7 +3128,7 @@ module.exports = {
 
 let {
     get, set
-} = __webpack_require__(2);
+} = __webpack_require__(3);
 
 module.exports = (obj, path) => (tagName, attributes, childExp) => {
     let value = get(obj, path, '');
@@ -2731,7 +3147,7 @@ module.exports = (obj, path) => (tagName, attributes, childExp) => {
 
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2739,11 +3155,11 @@ module.exports = (obj, path) => (tagName, attributes, childExp) => {
 
 let {
     getAttributeMap
-} = __webpack_require__(15);
+} = __webpack_require__(16);
 
 let {
     hasOwnProperty
-} = __webpack_require__(2);
+} = __webpack_require__(3);
 
 let {
     forEach
@@ -2778,7 +3194,7 @@ module.exports = applyAttibutes;
 
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2786,7 +3202,7 @@ module.exports = applyAttibutes;
 
 let {
     toArray
-} = __webpack_require__(2);
+} = __webpack_require__(3);
 
 let {
     isNode
@@ -2796,7 +3212,7 @@ let {
     forEach
 } = __webpack_require__(1);
 
-let applyAttibutes = __webpack_require__(31);
+let applyAttibutes = __webpack_require__(35);
 
 let replaceDirectly = (node, newNode) => {
     let parent = node.parentNode;
@@ -2910,7 +3326,7 @@ module.exports = (node, newNode) => {
 
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2918,7 +3334,7 @@ module.exports = (node, newNode) => {
 
 let {
     set
-} = __webpack_require__(2);
+} = __webpack_require__(3);
 
 let {
     isObject, isFunction, likeArray
@@ -2928,11 +3344,11 @@ let {
     forEach
 } = __webpack_require__(1);
 
-let replace = __webpack_require__(32);
+let replace = __webpack_require__(36);
 
 let reduceNode = __webpack_require__(5);
 
-let mount = __webpack_require__(11);
+let mount = __webpack_require__(12);
 
 /**
  * render function: (data) => node
@@ -3121,7 +3537,7 @@ module.exports = View;
 
 
 /***/ }),
-/* 34 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3129,7 +3545,7 @@ module.exports = View;
 
 let {
     n
-} = __webpack_require__(3);
+} = __webpack_require__(2);
 
 let {
     isObject, isFunction
@@ -3141,9 +3557,11 @@ let {
 
 let {
     set
-} = __webpack_require__(18);
+} = __webpack_require__(19);
 
-let RawInput = __webpack_require__(35);
+let RawInput = __webpack_require__(39);
+
+let Select = __webpack_require__(40);
 
 /**
  * input interface
@@ -3187,11 +3605,13 @@ let comIn = (...args) => {
             // get sub value
             let subValue = get(value, index);
 
-            let subOnchange = (v) => {
+            let subOnchange = (v, source) => {
                 // update sub value
                 set(value, index, v);
+                subAttrs.onchange && subAttrs.onchange(v, source);
 
-                onchange && onchange(value);
+                let prevSource = source ? index + '.' + source : index;
+                onchange && onchange(value, prevSource);
             };
 
             return mergeMap(subAttrs, {
@@ -3214,12 +3634,13 @@ let comIn = (...args) => {
 
 module.exports = {
     comIn,
-    RawInput
+    RawInput,
+    Select
 };
 
 
 /***/ }),
-/* 35 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3227,7 +3648,7 @@ module.exports = {
 
 let {
     n, view
-} = __webpack_require__(3);
+} = __webpack_require__(2);
 
 let {
     mergeMap
@@ -3245,6 +3666,24 @@ let RawInput = view((data = {}) => {
 });
 
 module.exports = RawInput;
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let Select = __webpack_require__(22);
+
+module.exports = (data) => {
+    return Select({
+        options: data.options,
+        slected: data.value,
+        onchange: data.onchange
+    });
+};
 
 
 /***/ })

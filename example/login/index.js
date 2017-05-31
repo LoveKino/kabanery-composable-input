@@ -1,31 +1,47 @@
 'use strict';
 
 let {
-    comIn, RawInput
+    comIn, RawInput, Select
 } = require('../..');
 
 let {
-    mount
+    mount, view
 } = require('kabanery');
 
-mount(
+let LoginView = view((data, {
+    update
+}) => {
+    return comIn('div', {
+        value: data,
 
-    comIn('div', {
-        value: {
-            loginType: 'normal',
-            loginData: {
-                userName: 'ddchen',
-                password: '1234'
-            }
-        },
-
-        onchange: (v) => {
+        onchange: (v, source) => {
             console.log(v);
+            console.log(source);
         }
     }, (bindValue) => [
-        RawInput(bindValue('loginType')),
-        comIn('div',
-            bindValue('loginData'),
+        Select(bindValue('loginType', {
+            options: [
+                [
+                    'normal',
+                    'normal'
+                ],
+                [
+                    'token', 'token'
+                ]
+            ],
+
+            onchange: (v) => {
+                update('loginType', v);
+            }
+        })),
+
+        data.loginType === 'token' ? RawInput(bindValue('token')) : comIn('div',
+            bindValue('loginData', {
+                onchange: (v, source) => {
+                    console.log(v);
+                    console.log(source);
+                }
+            }),
 
             (bindValue) => [
                 RawInput(bindValue('userName')),
@@ -35,4 +51,14 @@ mount(
                     }
                 }))
             ])
-    ]), document.body);
+    ]);
+});
+
+mount(LoginView({
+    loginType: 'normal',
+    loginData: {
+        userName: '',
+        password: ''
+    },
+    token: ''
+}), document.body);
