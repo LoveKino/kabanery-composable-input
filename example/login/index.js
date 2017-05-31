@@ -8,16 +8,31 @@ let {
     mount
 } = require('kabanery');
 
-mount(comIn('div', {
-    value: ['20', 'haha!'],
-    onchange: (v1, v2) => {
-        console.log('------------');
-        console.log(v1, v2);
-        return {
-            v1, v2
-        };
-    }
-}, (bindTuple) => [
-    RawInput(bindTuple(0)),
-    RawInput(bindTuple(1))
-]), document.body);
+mount(
+
+    comIn('div', {
+        value: {
+            loginType: 'normal',
+            loginData: {
+                userName: 'ddchen',
+                password: '1234'
+            }
+        },
+
+        onchange: (v) => {
+            console.log(v);
+        }
+    }, (bindValue) => [
+        RawInput(bindValue('loginType')),
+        comIn('div',
+            bindValue('loginData'),
+
+            (bindValue) => [
+                RawInput(bindValue('userName')),
+                RawInput(bindValue('password', {
+                    attrs: {
+                        type: 'password'
+                    }
+                }))
+            ])
+    ]), document.body);

@@ -25,11 +25,13 @@
     "browser-js-env": "0.0.9",
     "es6-promisify": "^5.0.0",
     "mocha": "^3.4.2",
-    "readme-builder": "0.0.12"
+    "readme-builder": "0.0.12",
+    "webpack": "^2.6.1"
   },
   "dependencies": {
     "basetype": "^0.1.4",
     "bolzano": "^0.1.1",
+    "jsenhance": "0.0.3",
     "kabanery": "^0.2.3"
   }
 }

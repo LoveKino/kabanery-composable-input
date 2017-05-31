@@ -1,7 +1,7 @@
 'use strict';
 
 let {
-    n, view
+    n
 } = require('kabanery');
 
 let {
@@ -9,8 +9,14 @@ let {
 } = require('basetype');
 
 let {
-    mergeMap, reduce
+    mergeMap, reduce, get
 } = require('bolzano');
+
+let {
+    set
+} = require('jsenhance');
+
+let RawInput = require('./view/RawInput');
 
 /**
  * input interface
@@ -44,15 +50,21 @@ let comIn = (...args) => {
         fun = args[1];
     }
 
-    let value = attrs.value || [];
+    let value = attrs.value;
     let onchange = attrs.onchange;
 
     if (fun) {
-        let bindTuple = (index, subAttrs = {}) => {
-            let subValue = value[index];
+        let bindValue = (index, subAttrs = {}) => {
+            index += '';
+
+            // get sub value
+            let subValue = get(value, index);
+
             let subOnchange = (v) => {
-                value[index] = v;
-                onchange && onchange.apply(undefined, value);
+                // update sub value
+                set(value, index, v);
+
+                onchange && onchange(value);
             };
 
             return mergeMap(subAttrs, {
@@ -61,27 +73,17 @@ let comIn = (...args) => {
             });
         };
 
-        childs = fun(bindTuple);
+        childs = fun(bindValue);
     }
 
     return n(tagName, reduce(attrs, (prev, cur, name) => {
         if (name !== 'value' && name !== 'onchange') {
             prev[name] = cur;
         }
+
         return prev;
     }, {}), childs);
 };
-
-let RawInput = view((data = {}) => {
-    return n('input', mergeMap({
-        value: data.value,
-        oninput: (e) => {
-            let newValue = e.target.value;
-            data.value = newValue;
-            data.onchange && data.onchange(newValue);
-        }
-    }, data.attrs));
-});
 
 module.exports = {
     comIn,
