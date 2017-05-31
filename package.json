@@ -1,0 +1,35 @@
+{
+  "name": "kabanery-composable-input",
+  "version": "0.0.1",
+  "description": "A general approach to compose input UIs",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha \"test/function/**/*.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LoveKino/kabanery-composable-input.git"
+  },
+  "keywords": [
+    "kabanery",
+    "composable",
+    "input"
+  ],
+  "author": "ddchen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LoveKino/kabanery-composable-input/issues"
+  },
+  "homepage": "https://github.com/LoveKino/kabanery-composable-input#readme",
+  "devDependencies": {
+    "browser-js-env": "0.0.9",
+    "es6-promisify": "^5.0.0",
+    "mocha": "^3.4.2",
+    "readme-builder": "0.0.12"
+  },
+  "dependencies": {
+    "basetype": "^0.1.4",
+    "bolzano": "^0.1.1",
+    "kabanery": "^0.2.3"
+  }
+}
