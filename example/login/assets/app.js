@@ -303,7 +303,7 @@ let {
     isObject, funType, or, isString, isFalsy, likeArray
 } = __webpack_require__(0);
 
-let iterate = __webpack_require__(10);
+let iterate = __webpack_require__(11);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact
@@ -656,108 +656,27 @@ module.exports = {
 "use strict";
 
 
-let {
-    isObject, funType, or, isString, isFalsy, likeArray
-} = __webpack_require__(0);
-
-let iterate = __webpack_require__(7);
+let EventMatrix = __webpack_require__(27);
 
 let {
-    map, reduce, find, findIndex, forEach, filter, any, exist, compact, reverse, overArgs
-} = __webpack_require__(15);
+    listenEventType,
+    attachDocument,
+    dispatchEvent
+} = EventMatrix();
 
-let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
+let bindEvents = (node, eventMap) => {
+    // hook event at node
+    node.__eventMap = eventMap;
 
-let difference = (list1, list2, fopts) => {
-    return reduce(list1, (prev, item) => {
-        if (!contain(list2, item, fopts) &&
-            !contain(prev, item, fopts)) {
-            prev.push(item);
-        }
-        return prev;
-    }, []);
-};
-
-let union = (list1, list2, fopts) => deRepeat(list2, fopts, deRepeat(list1, fopts));
-
-let mergeMap = (map1 = {}, map2 = {}) => reduce(map2, setValueKey, reduce(map1, setValueKey, {}));
-
-let setValueKey = (obj, value, key) => {
-    obj[key] = value;
-    return obj;
-};
-
-let interset = (list1, list2, fopts) => {
-    return reduce(list1, (prev, cur) => {
-        if (contain(list2, cur, fopts)) {
-            prev.push(cur);
-        }
-        return prev;
-    }, []);
-};
-
-let deRepeat = (list, fopts, init = []) => {
-    return reduce(list, (prev, cur) => {
-        if (!contain(prev, cur, fopts)) {
-            prev.push(cur);
-        }
-        return prev;
-    }, init);
-};
-
-/**
- * a.b.c
- */
-let get = funType((sandbox, name = '') => {
-    name = name.trim();
-    let parts = !name ? [] : name.split('.');
-    return reduce(parts, getValue, sandbox, invertLogic);
-}, [
-    isObject,
-    or(isString, isFalsy)
-]);
-
-let getValue = (obj, key) => obj[key];
-
-let invertLogic = v => !v;
-
-let delay = (time) => new Promise((resolve) => {
-    setTimeout(resolve, time);
-});
-
-let flat = (list) => {
-    if (likeArray(list) && !isString(list)) {
-        return reduce(list, (prev, item) => {
-            prev = prev.concat(flat(item));
-            return prev;
-        }, []);
-    } else {
-        return [list];
+    for (let type in eventMap) {
+        listenEventType(type);
     }
 };
 
 module.exports = {
-    flat,
-    contain,
-    difference,
-    union,
-    interset,
-    map,
-    reduce,
-    iterate,
-    find,
-    findIndex,
-    deRepeat,
-    forEach,
-    filter,
-    any,
-    exist,
-    get,
-    delay,
-    mergeMap,
-    compact,
-    reverse,
-    overArgs
+    bindEvents,
+    attachDocument,
+    dispatchEvent
 };
 
 
@@ -867,6 +786,7 @@ let toHTML = (node) => {
 module.exports = {
     n: cn('html'),
     svgn: cn('svg'),
+    cn,
     bindPlugs,
     isKabaneryNode,
     toHTML,
@@ -887,7 +807,7 @@ let {
 
 let {
     bindEvents
-} = __webpack_require__(11);
+} = __webpack_require__(4);
 
 let {
     map
@@ -918,6 +838,118 @@ module.exports = reduceNode;
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let {
+    isObject, funType, or, isString, isFalsy, likeArray
+} = __webpack_require__(0);
+
+let iterate = __webpack_require__(8);
+
+let {
+    map, reduce, find, findIndex, forEach, filter, any, exist, compact, reverse, overArgs
+} = __webpack_require__(15);
+
+let contain = (list, item, fopts) => findIndex(list, item, fopts) !== -1;
+
+let difference = (list1, list2, fopts) => {
+    return reduce(list1, (prev, item) => {
+        if (!contain(list2, item, fopts) &&
+            !contain(prev, item, fopts)) {
+            prev.push(item);
+        }
+        return prev;
+    }, []);
+};
+
+let union = (list1, list2, fopts) => deRepeat(list2, fopts, deRepeat(list1, fopts));
+
+let mergeMap = (map1 = {}, map2 = {}) => reduce(map2, setValueKey, reduce(map1, setValueKey, {}));
+
+let setValueKey = (obj, value, key) => {
+    obj[key] = value;
+    return obj;
+};
+
+let interset = (list1, list2, fopts) => {
+    return reduce(list1, (prev, cur) => {
+        if (contain(list2, cur, fopts)) {
+            prev.push(cur);
+        }
+        return prev;
+    }, []);
+};
+
+let deRepeat = (list, fopts, init = []) => {
+    return reduce(list, (prev, cur) => {
+        if (!contain(prev, cur, fopts)) {
+            prev.push(cur);
+        }
+        return prev;
+    }, init);
+};
+
+/**
+ * a.b.c
+ */
+let get = funType((sandbox, name = '') => {
+    name = name.trim();
+    let parts = !name ? [] : name.split('.');
+    return reduce(parts, getValue, sandbox, invertLogic);
+}, [
+    isObject,
+    or(isString, isFalsy)
+]);
+
+let getValue = (obj, key) => obj[key];
+
+let invertLogic = v => !v;
+
+let delay = (time) => new Promise((resolve) => {
+    setTimeout(resolve, time);
+});
+
+let flat = (list) => {
+    if (likeArray(list) && !isString(list)) {
+        return reduce(list, (prev, item) => {
+            prev = prev.concat(flat(item));
+            return prev;
+        }, []);
+    } else {
+        return [list];
+    }
+};
+
+module.exports = {
+    flat,
+    contain,
+    difference,
+    union,
+    interset,
+    map,
+    reduce,
+    iterate,
+    find,
+    findIndex,
+    deRepeat,
+    forEach,
+    filter,
+    any,
+    exist,
+    get,
+    delay,
+    mergeMap,
+    compact,
+    reverse,
+    overArgs
+};
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1060,113 +1092,6 @@ let id = v => v;
 module.exports = {
     iterate
 };
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-let {
-    likeArray, isObject, funType, isFunction, isUndefined, or, isNumber, isFalsy, mapType
-} = __webpack_require__(0);
-
-/**
- *
- * preidcate: chose items to iterate
- * limit: when to stop iteration
- * transfer: transfer item
- * output
- */
-let iterate = funType((domain = [], opts = {}) => {
-    let {
-        predicate, transfer, output, limit, def
-    } = opts;
-
-    opts.predicate = predicate || truthy;
-    opts.transfer = transfer || id;
-    opts.output = output || toList;
-    if (limit === undefined) limit = domain && domain.length;
-    limit = opts.limit = stopCondition(limit);
-
-    let rets = def;
-    let count = 0;
-
-    if (likeArray(domain)) {
-        for (let i = 0; i < domain.length; i++) {
-            let itemRet = iterateItem(domain, i, count, rets, opts);
-            rets = itemRet.rets;
-            count = itemRet.count;
-            if (itemRet.stop) return rets;
-        }
-    } else if (isObject(domain)) {
-        for (let name in domain) {
-            let itemRet = iterateItem(domain, name, count, rets, opts);
-            rets = itemRet.rets;
-            count = itemRet.count;
-            if (itemRet.stop) return rets;
-        }
-    }
-
-    return rets;
-}, [
-    or(isObject, isFunction, isFalsy),
-    or(isUndefined, mapType({
-        predicate: or(isFunction, isFalsy),
-        transfer: or(isFunction, isFalsy),
-        output: or(isFunction, isFalsy),
-        limit: or(isUndefined, isNumber, isFunction)
-    }))
-]);
-
-let iterateItem = (domain, name, count, rets, {
-    predicate, transfer, output, limit
-}) => {
-    let item = domain[name];
-    if (limit(rets, item, name, domain, count)) {
-        // stop
-        return {
-            stop: true,
-            count,
-            rets
-        };
-    }
-
-    if (predicate(item)) {
-        rets = output(rets, transfer(item, name, domain, rets), name, domain);
-        count++;
-    }
-    return {
-        stop: false,
-        count,
-        rets
-    };
-};
-
-let stopCondition = (limit) => {
-    if (isUndefined(limit)) {
-        return falsy;
-    } else if (isNumber(limit)) {
-        return (rets, item, name, domain, count) => count >= limit;
-    } else {
-        return limit;
-    }
-};
-
-let toList = (prev, v) => {
-    prev.push(v);
-    return prev;
-};
-
-let truthy = () => true;
-
-let falsy = () => false;
-
-let id = v => v;
-
-module.exports = iterate;
 
 
 /***/ }),
@@ -1390,26 +1315,104 @@ module.exports = iterate;
 "use strict";
 
 
-let EventMatrix = __webpack_require__(27);
-
 let {
-    listenEventType,
-    attachDocument
-} = EventMatrix();
+    likeArray, isObject, funType, isFunction, isUndefined, or, isNumber, isFalsy, mapType
+} = __webpack_require__(0);
 
-let bindEvents = (node, eventMap) => {
-    // hook event at node
-    node.__eventMap = eventMap;
+/**
+ *
+ * preidcate: chose items to iterate
+ * limit: when to stop iteration
+ * transfer: transfer item
+ * output
+ */
+let iterate = funType((domain = [], opts = {}) => {
+    let {
+        predicate, transfer, output, limit, def
+    } = opts;
 
-    for (let type in eventMap) {
-        listenEventType(type);
+    opts.predicate = predicate || truthy;
+    opts.transfer = transfer || id;
+    opts.output = output || toList;
+    if (limit === undefined) limit = domain && domain.length;
+    limit = opts.limit = stopCondition(limit);
+
+    let rets = def;
+    let count = 0;
+
+    if (likeArray(domain)) {
+        for (let i = 0; i < domain.length; i++) {
+            let itemRet = iterateItem(domain, i, count, rets, opts);
+            rets = itemRet.rets;
+            count = itemRet.count;
+            if (itemRet.stop) return rets;
+        }
+    } else if (isObject(domain)) {
+        for (let name in domain) {
+            let itemRet = iterateItem(domain, name, count, rets, opts);
+            rets = itemRet.rets;
+            count = itemRet.count;
+            if (itemRet.stop) return rets;
+        }
+    }
+
+    return rets;
+}, [
+    or(isObject, isFunction, isFalsy),
+    or(isUndefined, mapType({
+        predicate: or(isFunction, isFalsy),
+        transfer: or(isFunction, isFalsy),
+        output: or(isFunction, isFalsy),
+        limit: or(isUndefined, isNumber, isFunction)
+    }))
+]);
+
+let iterateItem = (domain, name, count, rets, {
+    predicate, transfer, output, limit
+}) => {
+    let item = domain[name];
+    if (limit(rets, item, name, domain, count)) {
+        // stop
+        return {
+            stop: true,
+            count,
+            rets
+        };
+    }
+
+    if (predicate(item)) {
+        rets = output(rets, transfer(item, name, domain, rets), name, domain);
+        count++;
+    }
+    return {
+        stop: false,
+        count,
+        rets
+    };
+};
+
+let stopCondition = (limit) => {
+    if (isUndefined(limit)) {
+        return falsy;
+    } else if (isNumber(limit)) {
+        return (rets, item, name, domain, count) => count >= limit;
+    } else {
+        return limit;
     }
 };
 
-module.exports = {
-    bindEvents,
-    attachDocument
+let toList = (prev, v) => {
+    prev.push(v);
+    return prev;
 };
+
+let truthy = () => true;
+
+let falsy = () => false;
+
+let id = v => v;
+
+module.exports = iterate;
 
 
 /***/ }),
@@ -1421,7 +1424,7 @@ module.exports = {
 
 let {
     attachDocument
-} = __webpack_require__(11);
+} = __webpack_require__(4);
 
 let {
     isNode
@@ -1465,6 +1468,33 @@ let getDoc = (node) => {
 
 module.exports = __webpack_require__(38);
 
+/**
+ * @readme-quick-run
+ *
+ * ## test tar=js r_c=KabaneryFlow env=browser
+ *
+ * let {mount} = require('kabanery');
+ * let {m, RawInput} = KabaneryFlow;
+ *
+ * mount(m('div', {
+ *    value: {
+ *      name: 'abc'
+ *    },
+ *
+ *    onchange: (v) => {
+ *       console.log(v); // {name: 'new value'}
+ *    }
+ * }, (bindValue) => [
+ *    RawInput(bindValue('name', {
+ *      attrs: {
+ *          id: 'test'
+ *      }
+ *    }))
+ * ]), document.body);
+ *
+ * console.log(document.getElementById('test').value);
+ */
+
 
 /***/ }),
 /* 14 */
@@ -1481,6 +1511,8 @@ let {
     mount, view, n
 } = __webpack_require__(2);
 
+let log = console.log; // eslint-disable-line
+
 let LoginView = view((data, {
     update
 }) => {
@@ -1488,8 +1520,8 @@ let LoginView = view((data, {
         value: data,
 
         onchange: (v, source) => {
-            console.log(v);
-            console.log(source);
+            log(v);
+            log(source);
         },
 
         doClick: 0
@@ -1513,17 +1545,15 @@ let LoginView = view((data, {
         data.loginType === 'token' ? RawInput(bindValue('token')) : m('div',
             bindValue('loginData', {
                 onchange: (v, source) => {
-                    console.log(v);
-                    console.log(source);
+                    log(v);
+                    log(source);
                 }
             }),
 
             (bindValue) => [
                 RawInput(bindValue('userName')),
                 RawInput(bindValue('password', {
-                    attrs: {
-                        type: 'password'
-                    }
+                    type: 'password'
                 }))
             ]),
 
@@ -1550,7 +1580,7 @@ mount(LoginView({
 
 let {
     iterate
-} = __webpack_require__(7);
+} = __webpack_require__(8);
 
 let {
     isFunction
@@ -2043,7 +2073,7 @@ let {
     isObject, funType, or, isString, isFalsy, likeArray
 } = __webpack_require__(0);
 
-let iterate = __webpack_require__(8);
+let iterate = __webpack_require__(9);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact
@@ -2149,7 +2179,7 @@ module.exports = {
 "use strict";
 
 
-let iterate = __webpack_require__(8);
+let iterate = __webpack_require__(9);
 
 let defauls = {
     eq: (v1, v2) => v1 === v2
@@ -2326,7 +2356,7 @@ let {
     isObject, funType, or, isString, isFalsy, likeArray
 } = __webpack_require__(0);
 
-let iterate = __webpack_require__(9);
+let iterate = __webpack_require__(10);
 
 let {
     map, reduce, find, findIndex, forEach, filter, any, exist, compact
@@ -2432,7 +2462,7 @@ module.exports = {
 "use strict";
 
 
-let iterate = __webpack_require__(9);
+let iterate = __webpack_require__(10);
 
 let defauls = {
     eq: (v1, v2) => v1 === v2
@@ -2537,7 +2567,7 @@ module.exports = {
 "use strict";
 
 
-let iterate = __webpack_require__(10);
+let iterate = __webpack_require__(11);
 
 let defauls = {
     eq: (v1, v2) => v1 === v2
@@ -2705,6 +2735,7 @@ let {
 module.exports = () => {
     let docs = [];
     let eventTypeMap = {};
+    let handlerMap = {};
 
     let listenEventType = (type) => {
         if (!eventTypeMap[type]) {
@@ -2722,7 +2753,7 @@ module.exports = () => {
                 // prevent multiple version of kabanery to binding multiple times
                 let id = getGlobalEventTypeId(type);
                 if (!doc[id]) {
-                    doc.addEventListener(type, listener(type));
+                    addEventListenerToDoc(doc, type);
                     doc[id] = true;
                 }
             }
@@ -2736,10 +2767,27 @@ module.exports = () => {
         }
         for (let i = 0; i < docs.length; i++) {
             let doc = docs[i];
-            doc.addEventListener(type, listener(type));
+            addEventListenerToDoc(doc, type);
         }
     };
 
+    let addEventListenerToDoc = (doc, type) => {
+        let handler = null;
+        if (handlerMap[type]) {
+            handler = handlerMap[type];
+        } else {
+            handler = listener(type);
+            handlerMap[type] = handler;
+        }
+        doc.addEventListener(type, handler);
+    };
+
+    /**
+     * e = {
+     *  target,
+     *  stopPropagation [optional]
+     * }
+     */
     let listener = (type) => function(e) {
         let ctx = this;
         let target = e.target;
@@ -2748,7 +2796,7 @@ module.exports = () => {
         let oldProp = e.stopPropagation;
         e.stopPropagation = function(...args) {
             e.__stopPropagation = true;
-            return oldProp.apply(this, args);
+            return oldProp && oldProp.apply(this, args);
         };
 
         let nodePath = getNodePath(target);
@@ -2773,9 +2821,15 @@ module.exports = () => {
         return eventMap && eventMap[type];
     };
 
+    let dispatchEvent = (type, e) => {
+        let handler = handlerMap[type];
+        handler && handler(e);
+    };
+
     return {
         listenEventType,
-        attachDocument
+        attachDocument,
+        dispatchEvent
     };
 };
 
@@ -2802,7 +2856,7 @@ let getGlobalEventTypeId = (type) => `__event_type_id_${type}`;
 
 
 let {
-    n, svgn, bindPlugs, toHTML, parseArgs
+    n, svgn, bindPlugs, toHTML, parseArgs, isKabaneryNode, cn
 } = __webpack_require__(5);
 
 let plugs = __webpack_require__(33);
@@ -2815,8 +2869,12 @@ let N = __webpack_require__(26);
 
 let reduceNode = __webpack_require__(6);
 
+let {dispatchEvent} = __webpack_require__(4);
+
 module.exports = {
     n,
+    isKabaneryNode,
+    cn,
     N,
     svgn,
     view,
@@ -2826,7 +2884,8 @@ module.exports = {
     toHTML,
     reduceNode,
 
-    parseArgs
+    parseArgs,
+    dispatchEvent
 };
 
 
@@ -3580,7 +3639,7 @@ let {
 
 let {
     mergeMap, reduce, get
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 
 let {
     set
@@ -3667,7 +3726,7 @@ module.exports = m;
 
 let {
     mergeMap
-} = __webpack_require__(4);
+} = __webpack_require__(7);
 
 module.exports = (attrs = {}) => {
     return mergeMap(attrs, {
@@ -3692,19 +3751,25 @@ let {
     n, view
 } = __webpack_require__(2);
 
-let {
-    mergeMap
-} = __webpack_require__(4);
-
 let RawInput = view((data = {}) => {
-    return n('input', mergeMap({
-        value: data.value,
-        oninput: (e) => {
-            let newValue = e.target.value;
-            data.value = newValue;
-            data.onchange && data.onchange(newValue);
+    let inputAttr = {};
+
+    for (let name in data) {
+        if (name !== 'onchange') {
+            inputAttr[name] = data[name];
         }
-    }, data.attrs));
+    }
+
+    inputAttr.oninput = (e) => {
+        let newValue = e.target.value;
+
+        inputAttr.value = newValue;
+        data.value = newValue;
+
+        data.onchange && data.onchange(newValue);
+    };
+
+    return n('input', inputAttr);
 });
 
 module.exports = RawInput;

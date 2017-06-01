@@ -4,19 +4,25 @@ let {
     n, view
 } = require('kabanery');
 
-let {
-    mergeMap
-} = require('bolzano');
-
 let RawInput = view((data = {}) => {
-    return n('input', mergeMap({
-        value: data.value,
-        oninput: (e) => {
-            let newValue = e.target.value;
-            data.value = newValue;
-            data.onchange && data.onchange(newValue);
+    let inputAttr = {};
+
+    for (let name in data) {
+        if (name !== 'onchange') {
+            inputAttr[name] = data[name];
         }
-    }, data.attrs));
+    }
+
+    inputAttr.oninput = (e) => {
+        let newValue = e.target.value;
+
+        inputAttr.value = newValue;
+        data.value = newValue;
+
+        data.onchange && data.onchange(newValue);
+    };
+
+    return n('input', inputAttr);
 });
 
 module.exports = RawInput;

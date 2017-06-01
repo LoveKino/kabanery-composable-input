@@ -47,9 +47,7 @@ mount(m('div', {
    }
 }, (bindValue) => [
    RawInput(bindValue('name', {
-     attrs: {
-         id: 'test'
-     }
+      id: 'test'
    }))
 ]), document.body);
 
@@ -72,6 +70,7 @@ console.log(document.getElementById('test').value);
 .    
 │──LICENSE    
 │──README.md    
+│──README_zh.md    
 │──example    
 │   └──login    
 │       │──assets    

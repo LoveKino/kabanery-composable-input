@@ -50,9 +50,7 @@ let LoginView = view((data, {
             (bindValue) => [
                 RawInput(bindValue('userName')),
                 RawInput(bindValue('password', {
-                    attrs: {
-                        type: 'password'
-                    }
+                    type: 'password'
                 }))
             ]),
 

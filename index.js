@@ -18,9 +18,7 @@ module.exports = require('./src');
  *    }
  * }, (bindValue) => [
  *    RawInput(bindValue('name', {
- *      attrs: {
- *          id: 'test'
- *      }
+ *       id: 'test'
  *    }))
  * ]), document.body);
  *
