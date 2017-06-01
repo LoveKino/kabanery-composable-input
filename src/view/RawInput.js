@@ -15,6 +15,9 @@ let RawInput = view((data = {}) => {
 
     inputAttr.oninput = (e) => {
         let newValue = e.target.value;
+        if (inputAttr.type === 'number') {
+            newValue = Number(newValue);
+        }
 
         inputAttr.value = newValue;
         data.value = newValue;
