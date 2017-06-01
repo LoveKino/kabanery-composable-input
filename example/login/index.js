@@ -8,6 +8,8 @@ let {
     mount, view, n
 } = require('kabanery');
 
+let log = console.log; // eslint-disable-line
+
 let LoginView = view((data, {
     update
 }) => {
@@ -15,8 +17,8 @@ let LoginView = view((data, {
         value: data,
 
         onchange: (v, source) => {
-            console.log(v);
-            console.log(source);
+            log(v);
+            log(source);
         },
 
         doClick: 0
@@ -40,8 +42,8 @@ let LoginView = view((data, {
         data.loginType === 'token' ? RawInput(bindValue('token')) : m('div',
             bindValue('loginData', {
                 onchange: (v, source) => {
-                    console.log(v);
-                    console.log(source);
+                    log(v);
+                    log(source);
                 }
             }),
 

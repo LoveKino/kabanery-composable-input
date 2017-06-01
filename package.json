@@ -1,14 +1,14 @@
 {
-  "name": "kabanery-composable-input",
+  "name": "kabanery-flow",
   "version": "0.0.1",
-  "description": "A general approach to compose input UIs",
+  "description": "A general approach to compose UIs with value and onchange interface",
   "main": "index.js",
   "scripts": {
     "test": "mocha \"test/function/**/*.js\" -t 10000"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LoveKino/kabanery-composable-input.git"
+    "url": "git+https://github.com/LoveKino/kabanery-flow.git"
   },
   "keywords": [
     "kabanery",
@@ -18,9 +18,9 @@
   "author": "ddchen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LoveKino/kabanery-composable-input/issues"
+    "url": "https://github.com/LoveKino/kabanery-flow/issues"
   },
-  "homepage": "https://github.com/LoveKino/kabanery-composable-input#readme",
+  "homepage": "https://github.com/LoveKino/kabanery-flow#readme",
   "devDependencies": {
     "browser-js-env": "0.0.9",
     "es6-promisify": "^5.0.0",
@@ -34,5 +34,13 @@
     "jsenhance": "0.0.3",
     "kabanery": "^0.2.3",
     "kabanery-select": "0.0.8"
+  },
+  "readmeDocOptions": {
+    "ignores": [
+      "**/*/node_modules/**/*",
+      "node_modules/**/*",
+      "test/**/*",
+      "example/**/*"
+    ]
   }
 }
