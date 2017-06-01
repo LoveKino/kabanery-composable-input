@@ -8,22 +8,16 @@ module.exports = view((data = {}) => {
     let inputAttr = {};
 
     for (let name in data) {
-        if (name !== 'onchange') {
+        if (name !== 'onchange' && name !== 'value') {
             inputAttr[name] = data[name];
         }
     }
 
     inputAttr.oninput = (e) => {
         let newValue = e.target.value;
-        if (inputAttr.type === 'number') {
-            newValue = Number(newValue);
-        }
-
-        inputAttr.value = newValue;
         data.value = newValue;
-
         data.onchange && data.onchange(newValue);
     };
 
-    return n('textarea', inputAttr);
+    return n('textarea', inputAttr, data.value || '');
 });
