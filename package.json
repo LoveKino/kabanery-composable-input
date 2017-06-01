@@ -1,6 +1,6 @@
 {
   "name": "kabanery-flow",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A general approach to compose UIs with value and onchange interface",
   "main": "index.js",
   "scripts": {

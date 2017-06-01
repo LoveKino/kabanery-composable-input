@@ -21,6 +21,7 @@ let testFiles = {
     'base:compose2': path.join(__dirname, '../browser/case/base/compose2.js'),
     'base:source': path.join(__dirname, '../browser/case/base/source.js'),
     'base:rawInput': path.join(__dirname, '../browser/case/base/rawInput.js'),
+    'base:rawTextArea': path.join(__dirname, '../browser/case/base/rawTextArea.js'),
     'base:rawInputNumber': path.join(__dirname, '../browser/case/base/rawInputNumber.js')
 };
 
